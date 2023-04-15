@@ -2,43 +2,55 @@
 const mongoose=require('mongoose');
 const schema=mongoose.Schema;
 const shareSchema=new schema({
-    FirstName:{
+    firstname:{
         type:String,
         required:[true,"name filled is required"]
     },
-    MiddleName:{
+    middlename:{
         type:String,
         required:[true,"name filled is required"]
     },
-    LastName:{
+    lastname:{
         type:String,
         required:[true,"name filled is required"]
     },
-    Country:{
+    country:{
     type:String,
     required:[true,"name filled is required"]
     },
-    City:{
+    city:{
         type:String,
         required:[true,"name filled is required"]
         },
-        Subcity:{
+        subcity:{
         type:String,
         required:[true,"name filled is required"]
         },
-        Wereda:{
+        wereda:{
             type:String,
             required:[true,"name filled is required"]
             },
-            HouseNo:{
+            email:{
+                type:String,
+                required:[true,"name filled is required"] 
+            },
+            password:{
+                type:String,
+                required:[true,"name filled is required"] 
+            },
+            isAdmin: {
+                type:Boolean,
+                default:false,
+            },
+            houseNo:{
                 type:String,
                 required:[true,"name filled is required"]
                 },
-                PhoneNo:{
+                phoneNo:{
                     type:String,
                     required:[true,"name filled is required"]
                     },
-                    ShareAmount:{
+                    shareamount:{
                         type:String,
                         required:[true,"name filled is required"]
                         }
