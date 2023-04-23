@@ -29,5 +29,6 @@ const LoginUser=asyncHandler(async(req,res)=>{
     })
   }
   module.exports={
-    LoginUser
+    LoginUser,
+    generateToken
   }

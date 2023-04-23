@@ -53,7 +53,11 @@ const shareSchema=new schema({
                     shareamount:{
                         type:String,
                         required:[true,"name filled is required"]
-                        }
+                        },
+                        paidbirr:{
+                            type:String,
+                            required:[true,"name filled is required"]
+                            }
 },{
    timestamps:true
 })

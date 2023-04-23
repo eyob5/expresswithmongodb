@@ -12,6 +12,7 @@ app.use('/api/share',require('./routes/shareapi'));
 app.use('/api/user',require('./routes/userapi'));
 app.use('/api/login',require('./routes/loginapi'));
 app.use('/api/report',require('./routes/adminreport'));
+app.use('/api/news',require('./routes/sharenews'));
 app.use(errorHandler);
 app.all('*', (req,res,next) => {
  res.send("page not found");

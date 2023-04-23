@@ -2,19 +2,40 @@ const asyncHandler = require('express-async-handler');
 const jwt=require('jsonwebtoken');
 const bcrypt=require('bcryptjs');
 const Shareholders=require('../model/share');
+const  mongoose = require('mongoose');
+//@private access(logged in user)
+const getMe = asyncHandler(async (req, res) => {
+  res.status(200).json(req.user)
+  console.log(req.user.firstname,);
+})
 const updatepassword=asyncHandler(async (req, res) => {
-  const {email,password}=req.body;
-  const shareholder=await Shareholders.findById(req.params.id);
-  if (shareholder._id.toString() === req.user.id){
-    const salt=await bcrypt.genSalt(10);
+  const {password}=req.body;
+  const {id}=req.params;
+  if(!mongoose.Types.ObjectId.isValid(id)){
+    res.status(404).json({error: 'no shareholder found'})
+    console.log(shareholder._id.toString(),req.user.id);
+  }
+  const shareholder=await Shareholders.findById(id);
+  if(!shareholder){
+    res.status(400)
+    throw new Error('shareholder not found')
+  }
+  if (!req.user) {
+    res.status(401)
+    throw new Error('User not found')
+  }
+  if(req.user.id !== shareholder._id.toString()){
+    res.status(401)
+    throw new Error('User not authorized')
+  }
+  const salt=await bcrypt.genSalt(10);
     const hashedPassword=await bcrypt.hash(password,salt);
-    await Shareholders.updateOne({email,password:hashedPassword});
-    res.status(200).json("updated shareholder");
-}
-else{
-  res.send("id not matched");
-  console.log(shareholder._id.toString(),req.user.id);
-}
+    await Shareholders.updateOne({password:hashedPassword});
+    res.status(200).json("password updated");
+// else{
+//   res.send("id not matched");
+//   console.log(shareholder._id.toString(),req.user.id);
+// }
 })
 // const Login=require('../model/userlogin');
 // // const getUser=asyncHandler(async (req,res)=>{
@@ -85,4 +106,5 @@ else{
 // }
 module.exports={
     updatepassword,
+    getMe
 }

@@ -2,7 +2,8 @@ const express=require('express');
 const router=express.Router();
 const  {createReport, getReport}=require('../controllers/AdminReport');
 const {protect,isAdmin}=require('../middleware/authMiddelware');
-router.post('/',protect,isAdmin,createReport)
+const upload = require('../middleware/upload');
+router.post('/',protect,isAdmin,upload.single('adminreport'),createReport)
 router.get('/',protect,getReport)
 module.exports=router;
 

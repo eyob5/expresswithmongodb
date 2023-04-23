@@ -6,21 +6,27 @@ const Report=require('../model/report');
 //     res.json(report);
 // })
 const createReport=asyncHandler(async(req,res)=>{
-    const {adminreport}=req.body;
-    if( !adminreport){
+    const {reporttype}=req.body;
+    if(!reporttype){
       res.status(404);
-      throw new Error("please fill all filed");
+      throw new Error("please add the report type");
     }
-  const report=await Report.findOne({adminreport});
-  if(report){
-    res.status(404);
-    throw new Error("'report already created'");
-
-  }
-  const postreport=await Report.create(req.body);
+  // const report=await Report.findOne()
+  // if(report){
+  //   res.status(404);
+  //   throw new Error("report already created");
+  // }
+  const postreport=await Report.create({
+    reporttype:req.body.reporttype,
+    adminreport:req.file.path
+  });
+  //   if(req.file){
+  //  postreport.adminreport=req.file.path
+  // }
   if(postreport){
     res.status(201).json({
       _id:postreport.id,
+      reporttype:reporttype,
       adminreport:postreport.adminreport,
     });
   }
@@ -32,10 +38,10 @@ const createReport=asyncHandler(async(req,res)=>{
 })
 const getReport=asyncHandler(async(req,res)=>{
   const report=await Report.find();
-    res.json(report);
-    // console.log(report.adminreport)
+    res.send(report);
 })
 module.exports={
     createReport,
     getReport,
 }
+
