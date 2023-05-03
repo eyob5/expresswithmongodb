@@ -1,5 +1,5 @@
 const express=require('express');
-const dotenv=require('dotenv').config() //allows to have .env files
+require('dotenv').config() //allows to have .env files
 const port=process.env.PORT || 5000;
 const bodyParser= require('body-parser');
 const {errorHandler}=require('./middleware/errorMiddleware');
@@ -11,8 +11,9 @@ app.use(bodyParser.json());
 app.use('/api/share',require('./routes/shareapi'));
 app.use('/api/user',require('./routes/userapi'));
 app.use('/api/login',require('./routes/loginapi'));
-app.use('/api/report',require('./routes/adminreport'));
-app.use('/api/news',require('./routes/sharenews'));
+app.use('/api/boardreport',require('./routes/boardreport'));
+app.use('/api/adminnews',require('./routes/adminnews'));
+app.use('/api/boardnews',require('./routes/boardnews'));
 app.use(errorHandler);
 app.all('*', (req,res,next) => {
  res.send("page not found");

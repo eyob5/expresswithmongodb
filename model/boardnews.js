@@ -4,7 +4,7 @@ const news=new schema({
     // img: {
     //     type:String,
     // },
-    sharenews: {
+    boardnew: {
         type:String,
         required:[true, 'please add news']
     },
@@ -12,5 +12,5 @@ const news=new schema({
 {
     timestamps:true,
 })
-const shareNew=mongoose.model('New',news);
-module.exports=shareNew;
+const BoardNew=mongoose.model('BoardNews',news);
+module.exports=BoardNew;

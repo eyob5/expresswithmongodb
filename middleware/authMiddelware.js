@@ -28,16 +28,25 @@ const protect = asyncHandler(async (req, res, next) => {
       throw new Error('Not authorized,no token')
     }
   })
-  const isAdmin =  (req, res, next) => {
-    if (req.user.isAdmin === false){
-      throw new Error('Not authorized,no admin')
+  const isBoardMember =  (req, res, next) => {
+    if (req.user.roll !== 1){
+      throw new Error('Not authorized,no boardmember')
     }
     next();
   }
-  // const isUser =  (req, res, next) => {
-  //   if (req.user.isAdmin === true){
-  //     throw new Error('Not authorized,no user')
-  //   }
-  //   next();
-  // }
-module.exports={protect,isAdmin};
+  const isShareholder =  (req, res, next) => {
+    if ( req.user.roll !== 0){
+      throw new Error('Not authorized,no shareholder')
+    }
+    next();
+  }
+  const isAdmin =  (req, res, next) => {
+    if (req.user.roll === 0){
+      throw new Error('Not authorized,u r shareholder no admin')
+    }
+    else if(req.user.roll === 1){
+      throw new Error('Not authorized,u r boardmember no admin')
+    }
+    next();
+  }
+module.exports={protect,isBoardMember,isAdmin,isShareholder};

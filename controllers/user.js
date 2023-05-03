@@ -11,6 +11,7 @@ const getMe = asyncHandler(async (req, res) => {
 const updatepassword=asyncHandler(async (req, res) => {
   const {password}=req.body;
   const {id}=req.params;
+  // console.log(req.user);
   if(!mongoose.Types.ObjectId.isValid(id)){
     res.status(404).json({error: 'no shareholder found'})
     console.log(shareholder._id.toString(),req.user.id);
@@ -26,12 +27,13 @@ const updatepassword=asyncHandler(async (req, res) => {
   }
   if(req.user.id !== shareholder._id.toString()){
     res.status(401)
+    console.log(req.user.id,shareholder._id.toString());
     throw new Error('User not authorized')
   }
   const salt=await bcrypt.genSalt(10);
     const hashedPassword=await bcrypt.hash(password,salt);
-    await Shareholders.updateOne({password:hashedPassword});
-    res.status(200).json("password updated");
+    await Shareholders.findByIdAndUpdate({_id:id},{password:hashedPassword});
+    res.status(200).json({ok:"password updated",hashedPassword});
 // else{
 //   res.send("id not matched");
 //   console.log(shareholder._id.toString(),req.user.id);

@@ -1,33 +1,39 @@
 const asyncHandler = require('express-async-handler');
 const bcrypt=require('bcryptjs');
-const Report=require('../model/report');
+// const fs=require('fs')
+const BReport = require('../model/boardreport');
 // const getReport=asyncHandler(async (req,res)=>{
 //     const {email}=await Report.findById(req.user.id);
 //     res.json(report);
 // })
 const createReport=asyncHandler(async(req,res)=>{
-    const {reporttype}=req.body;
-    if(!reporttype){
-      res.status(404);
-      throw new Error("please add the report type");
-    }
-  // const report=await Report.findOne()
+    const {originalname, path}=req.file;
+    const{reporttype,boardreport}=req.body;
+    // if(!reporttype){
+    //   res.status(404);
+    //   throw new Error("please add the report type");
+    // }
+  // const report=await BReport.findOne()
   // if(report){
   //   res.status(404);
   //   throw new Error("report already created");
   // }
-  const postreport=await Report.create({
-    reporttype:req.body.reporttype,
-    adminreport:req.file.path
+    //   if(req.file){
+  //  postreport.adminreport=req.file.path
+  // }
+  const postreport=await BReport.create({
+    reporttype:originalname,
+    boardreport:path
   });
   //   if(req.file){
   //  postreport.adminreport=req.file.path
   // }
+  console.log(req.file);
   if(postreport){
     res.status(201).json({
       _id:postreport.id,
-      reporttype:reporttype,
-      adminreport:postreport.adminreport,
+      reporttype:postreport.reporttype,
+      boardreport:postreport.boardreport,
     });
   }
     else{
@@ -37,7 +43,7 @@ const createReport=asyncHandler(async(req,res)=>{
     }
 })
 const getReport=asyncHandler(async(req,res)=>{
-  const report=await Report.find();
+  const report=await BReport.find();
     res.send(report);
 })
 module.exports={

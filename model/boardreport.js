@@ -5,7 +5,7 @@ const report=new schema({
         type:String,
         required:[true, 'please add report type'],
     },
-    adminreport: {
+    boardreport: {
         type:String,
         // required:[true, 'please add report'],
     },
@@ -13,8 +13,8 @@ const report=new schema({
 {
     timestamps:true,
 })
-const Report=mongoose.model('AdminReport',report);
-module.exports=Report;
+const BReport=mongoose.model('BoardReport',report);
+module.exports=BReport;
 
 
         

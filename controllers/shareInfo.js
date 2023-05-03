@@ -4,6 +4,7 @@ const jwt=require('jsonwebtoken');
 const Shareholders=require('../model/share');
 const { generateToken } = require('./login');
 const  mongoose = require('mongoose');
+const sendEmail=require('../utils/email')
 const getShare=asyncHandler(async (req,res)=>{
     const share=await Shareholders.find();
     res.json(share);
@@ -18,7 +19,6 @@ const createShare=asyncHandler(async(req,res)=>{
   if(shareExists){
     res.status(404);
     throw new Error("'shareholder already exists'");
-
   }
   const salt=await bcrypt.genSalt(10);
   const hashedPassword=await bcrypt.hash(password,salt);
@@ -38,11 +38,14 @@ const createShare=asyncHandler(async(req,res)=>{
       paidbirr
   });
   if(share){
-    res.status(201).json({
-      _id:share.id,
-      firstname:share.firstname,
-      token:generateToken(share._id),
-    });
+    // res.status(201).json({
+    //   _id:share.id,
+    //   role:share.role,
+    //   email:share.email,
+    //   // token:generateToken(share._id),
+    // });
+    await sendEmail(share.email, "use this password to login and update by your own", `password:${password}`);
+    res.send("An Email sent to your account please verify");
   }
     else{
       res.status(400);

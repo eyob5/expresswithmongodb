@@ -38,9 +38,9 @@ const shareSchema=new schema({
                 type:String,
                 required:[true,"name filled is required"] 
             },
-            isAdmin: {
-                type:Boolean,
-                default:false,
+            roll: {
+                type:Number,
+                default:0,
             },
             houseNo:{
                 type:String,

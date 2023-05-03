@@ -13,7 +13,7 @@ const LoginUser=asyncHandler(async(req,res)=>{
       res.status(201).json({
         _id:userExist.id,
         email:userExist.email,
-        isAdmin:userExist.isAdmin,
+        roll:userExist.roll,
         token:generateToken(userExist._id),
         // ok:"userloged"
       })
